@@ -1,0 +1,7 @@
+# conda env create --force -f environment.yml
+name: livewire
+channels:
+  - defaults
+dependencies:
+  - python=3.9
+  - pip
