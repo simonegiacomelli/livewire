@@ -4,11 +4,11 @@ from functools import partial
 from http import HTTPStatus
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from threading import Thread
-from typing import Optional, Callable, Dict, AnyStr, Tuple, Any
+from typing import Callable, Dict, Tuple, Any
 from urllib.parse import urlparse, parse_qs
 
-from src.livewire import wait_forever
-from src.livewire.find_port import find_port
+from livewire import wait_forever
+from livewire.find_port import find_port
 from livewire.httplib import HttpRoute, HttpResponse, HttpRequest
 from livewire.wait_url import wait_url
 

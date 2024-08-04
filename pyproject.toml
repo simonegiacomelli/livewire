@@ -1,7 +1,7 @@
 # https://packaging.python.org/en/latest/tutorials/packaging-projects/
 [project]
 name = "livewire"
-version = "0.0.3"
+version = "0.0.4"
 authors = [{ name = "Simone Giacomelli", email = "simone.giacomelli@gmail.com" }]
 dependencies = ["watchdog==4.0.1"]
 requires-python = ">=3.9"
