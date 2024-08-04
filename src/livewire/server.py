@@ -14,7 +14,8 @@ from livewire.httplib import HttpRoute, HttpResponse, HttpRequest
 from livewire.webserver import Webserver
 
 
-def start_hotreload_for(fs_root: Path, webserver_port: int = livewire_std_port):
+def start_hotreload_for(fs_root: Path | str, webserver_port: int = livewire_std_port):
+    fs_root = Path(fs_root)
     if not fs_root.exists():
         raise FileNotFoundError(f'path does not exist: {fs_root}')
     print(f'start_hotreload_for fs_root={fs_root}')
