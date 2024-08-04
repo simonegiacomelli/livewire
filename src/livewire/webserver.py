@@ -8,6 +8,7 @@ from typing import Callable, Dict, Tuple, Any
 from urllib.parse import urlparse, parse_qs
 
 from livewire import wait_forever
+from livewire.device_ip import get_device_ip
 from livewire.find_port import find_port
 from livewire.httplib import HttpRoute, HttpResponse, HttpRequest
 from livewire.wait_url import wait_url
@@ -45,9 +46,12 @@ class Webserver:
         httpd = ThreadingHTTPServer((self.host, self.port), partial(RequestHandler, handler=self._handler))
 
         def run() -> None:
+            ip = get_device_ip()
+            ip_line = f' - http://{ip}:{self.port}\n' if ip else ''
             print(f'Starting embedded python web server on:\n'
                   f' - http://{self.host}:{self.port}\n'
-                  f' - {self.localhost_url()}\n')
+                  f' - {self.localhost_url()}\n' +
+                  ip_line)
             httpd.serve_forever()
 
         self.thread = Thread(target=run, daemon=True)
