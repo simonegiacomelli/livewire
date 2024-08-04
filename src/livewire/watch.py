@@ -27,13 +27,16 @@ def start_watch_for(watch_root: Path, host_port: str, debounce_millis=100):
 
     sync: Sync = sync_zip
     init_pending = True
+    push_number = 1
 
     def push_changes(changes: List) -> HttpResponse | None:
-        nonlocal init_pending
-        print(f'Pushing changes (length={len(changes)})')
+        nonlocal init_pending, push_number
+        print(f'Push number={push_number} (changes length={len(changes)})')
         payload = json.dumps(changes)
         try:
-            return _sync_fetch_response(f'{url}/zip_target', 'POST', payload)
+            response = _sync_fetch_response(f'{url}/zip_target', 'POST', payload)
+            push_number += 1
+            return response
         except Exception as ex:
             init_pending = True
             import traceback
@@ -64,7 +67,6 @@ def start_watch_for(watch_root: Path, host_port: str, debounce_millis=100):
                 sleep_secs = 5
                 print(f'Failed to send initial push, retrying in {sleep_secs}...')
                 sleep(sleep_secs)
-
 
 
 def _sync_fetch_response(url: str, method: str = 'GET', data: str | bytes = '') -> HttpResponse:
