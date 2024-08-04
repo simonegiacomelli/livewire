@@ -71,11 +71,10 @@ class _RootState:
 
     def sync_target(self, sync: Sync, changes_body: bytes | str):
         changes = json.loads(changes_body)
+        print(f'Received changes len {len(changes)}. Calling unload_path() in {self.fs_root}')
         if self.prev_finalize:
-            print(f'running finalize of prev {self.entrypoint_py}')
+            print(f'Calling finalize() before unload. File={self.entrypoint_py}')
             self.prev_finalize()
-        else:
-            print(f'no prev_finalize found in {self.entrypoint_py}')
 
         reloader.unload_path(str(self.fs_root))
         sync.sync_target(self.fs_root, changes)
@@ -84,6 +83,8 @@ class _RootState:
             gl = dict()
             exec(self.entrypoint_py.read_text(), gl)
             self.prev_finalize = gl.get('finalize', None)
+            if self.prev_finalize:
+                print(f'Function `def finalize()` will be called before next unload. File={self.entrypoint_py}')
 
 
 def main():
