@@ -7,9 +7,8 @@ from typing import List
 
 from watchdog.events import FileSystemEvent
 
-from livewire.filesystem_sync import new_tmp_path, filesystemevents_print
+from livewire.filesystem_sync import new_tmp_path, filesystemevents_print, Sync
 from livewire.filesystem_sync import sync_zip
-from livewire.filesystem_sync.sync import Sync
 from livewire.filesystem_sync.watchdog_debouncer import WatchdogDebouncer
 
 

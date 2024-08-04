@@ -11,9 +11,8 @@ from typing import List
 import pytest
 from watchdog.events import FileSystemEvent
 
-from livewire.filesystem_sync import filesystemevents_print
+from livewire.filesystem_sync import filesystemevents_print, Sync
 from livewire.filesystem_sync import sync_delta, sync_zip
-from livewire.filesystem_sync.sync import Sync
 from livewire.filesystem_sync.watchdog_debouncer import WatchdogDebouncer
 from tests import new_tmp_path
 from tests.activity_monitor import ActivityMonitor
