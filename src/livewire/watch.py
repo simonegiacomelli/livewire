@@ -26,35 +26,45 @@ def start_watch_for(watch_root: Path, host_port: str, debounce_millis=100):
     print(f'pushing to {url}')
 
     sync: Sync = sync_zip
+    init_pending = True
 
-    def post(changes: List) -> HttpResponse | None:
-        print(f'post changes len={len(changes)}')
+    def push_changes(changes: List) -> HttpResponse | None:
+        nonlocal init_pending
+        print(f'Pushing changes (length={len(changes)})')
         payload = json.dumps(changes)
         try:
             return _sync_fetch_response(f'{url}/zip_target', 'POST', payload)
-        except:
+        except Exception as ex:
+            init_pending = True
             import traceback
-            print(f'error in post: {traceback.format_exc()}')
+            print(f'Push error: {ex} ({ex.__class__.__name__})')
             return None
 
     def callback(events: List[FileSystemEvent]):
         assert events
         filesystemevents_print(events)
+        if init_pending:
+            print('Init is pending. No sync will be sent for this batch.')
         changes = sync.sync_source(watch_root, events)
-        post(changes)
+        push_changes(changes)
 
     debounced_watcher = WatchdogDebouncer(watch_root, timedelta(milliseconds=debounce_millis), callback)
-    while True:
-        print('Sending initial sync')
-        resp = post(sync.sync_init(watch_root))
-        if resp is not None and resp.code == 200:
-            break
-        sleep_secs = 5
-        print(f'Failed to send initial sync, retrying in {sleep_secs}...')
-        sleep(sleep_secs)
-
-    print('Initial sync sent, starting watcher')
     debounced_watcher.start()
+
+    while True:
+        while not init_pending:
+            sleep(0.1)
+
+        while init_pending:
+            resp = push_changes(sync.sync_init(watch_root))
+            if resp is not None and resp.code == 200:
+                init_pending = False
+                print('Init push sent.')
+            else:
+                sleep_secs = 5
+                print(f'Failed to send initial push, retrying in {sleep_secs}...')
+                sleep(sleep_secs)
+
 
 
 def _sync_fetch_response(url: str, method: str = 'GET', data: str | bytes = '') -> HttpResponse:

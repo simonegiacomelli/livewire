@@ -12,7 +12,7 @@ def new_tmp_path() -> Path:
 def filesystemevents_print(events: List[FileSystemEvent]):
     for e in events:
         print(f'  {e}')
-    print(f'len events={len(events)}')
+    print(f'FileSystemEvent received: {len(events)}')
 
 
 class Sync(Protocol):
