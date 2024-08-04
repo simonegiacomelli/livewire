@@ -19,14 +19,19 @@ def sync_source(source: Path, events: List[FileSystemEvent]) -> List[Any]:
     return sync_init(source)
 
 
+def _delete_recursive(path: Path, ignore_errors):
+    for e in path.iterdir():
+        if e.is_file():
+            e.unlink(missing_ok=ignore_errors)
+        elif e.is_dir():
+            shutil.rmtree(e, ignore_errors=ignore_errors)
+
+
 def sync_target(target_root: Path, changes: List[Any]) -> None:
     if not changes:
         return
-    for e in target_root.iterdir():
-        if e.is_file():
-            e.unlink()
-        elif e.is_dir():
-            shutil.rmtree(e)
+    _delete_recursive(target_root, ignore_errors=True)
+    _delete_recursive(target_root, ignore_errors=False)
 
     b = base64.b64decode(changes[0])
     with BytesIO(b) as stream:
