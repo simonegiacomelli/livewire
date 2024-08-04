@@ -57,7 +57,6 @@ def start_hotreload_for(fs_root: Path, webserver_port: int = livewire_std_port):
         return HttpResponse.text_plain(f'ok')
 
     s.start_listen()
-    wait_forever()
 
 
 class _RootState:
@@ -89,6 +88,7 @@ class _RootState:
 def main():
     fs_root = Path(sys.argv[1] if len(sys.argv) > 1 else tempfile.mkdtemp(prefix='livewire-hotreload-'))
     start_hotreload_for(fs_root)
+    wait_forever()
 
 
 if __name__ == '__main__':
