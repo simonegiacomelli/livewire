@@ -1,4 +1,3 @@
-import tempfile
 import threading
 from datetime import timedelta
 from pathlib import Path
@@ -7,10 +6,10 @@ from typing import Callable, List
 
 from watchdog.events import FileSystemEvent
 
-from filesystem_sync import new_tmp_path
-from filesystem_sync.any_observer import AnyObserver
-from filesystem_sync.debouncer import Debouncer
-from filesystem_sync.debouncer_thread import DebouncerThread
+from livewire.filesystem_sync import new_tmp_path
+from livewire.filesystem_sync.any_observer import AnyObserver
+from livewire.filesystem_sync.debouncer import Debouncer
+from livewire.filesystem_sync.debouncer_thread import DebouncerThread
 
 
 class WatchdogDebouncer(DebouncerThread):

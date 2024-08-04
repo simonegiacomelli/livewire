@@ -6,7 +6,7 @@ from threading import Thread, Event
 from time import sleep
 from typing import Callable, Any, List
 
-from filesystem_sync.debouncer import Debouncer
+from livewire.filesystem_sync.debouncer import Debouncer
 
 
 class DebouncerThread:

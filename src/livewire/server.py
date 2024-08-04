@@ -6,8 +6,8 @@ import tempfile
 from datetime import datetime
 from pathlib import Path
 
-from filesystem_sync import sync_zip
-from filesystem_sync.sync import Sync
+from livewire.filesystem_sync import sync_zip
+from livewire.filesystem_sync import Sync
 
 from livewire import wait_forever, reloader, livewire_std_port
 from livewire.httplib import HttpRoute, HttpResponse, HttpRequest

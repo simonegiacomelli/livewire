@@ -2,7 +2,7 @@ import shutil
 
 import pytest
 
-from filesystem_sync import sync_delta, sync_zip
+from livewire.filesystem_sync import sync_delta, sync_zip
 from tests.sync_fixture import SyncFixture
 
 invalid_utf8 = b'\x80\x81\x82'

@@ -2,7 +2,7 @@ from datetime import timedelta
 
 import pytest
 
-from filesystem_sync.debouncer import Debouncer
+from livewire.filesystem_sync.debouncer import Debouncer
 from tests.time_mock import TimeMock
 
 

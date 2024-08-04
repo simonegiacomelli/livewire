@@ -1,17 +1,16 @@
 from __future__ import annotations
 
 import json
-import sys
-import tempfile
 import urllib.request
 from datetime import timedelta
 from pathlib import Path
 from time import sleep
 from typing import List, Any
 
-from filesystem_sync import sync_zip, filesystemevents_print
-from filesystem_sync.sync import Sync
-from filesystem_sync.watchdog_debouncer import WatchdogDebouncer
+from livewire.filesystem_sync import filesystemevents_print
+from livewire.filesystem_sync import sync_zip
+from livewire.filesystem_sync import Sync
+from livewire.filesystem_sync import WatchdogDebouncer
 from watchdog.events import FileSystemEvent
 
 from livewire import livewire_std_port, wait_forever

@@ -1,6 +1,5 @@
 import shutil
 import sys
-import threading
 from datetime import timedelta
 from pathlib import Path
 from time import sleep
@@ -8,9 +7,10 @@ from typing import List
 
 from watchdog.events import FileSystemEvent
 
-from filesystem_sync import new_tmp_path, sync_zip, filesystemevents_print
-from filesystem_sync.sync import Sync
-from filesystem_sync.watchdog_debouncer import WatchdogDebouncer
+from livewire.filesystem_sync import new_tmp_path, filesystemevents_print
+from livewire.filesystem_sync import sync_zip
+from livewire.filesystem_sync.sync import Sync
+from livewire.filesystem_sync.watchdog_debouncer import WatchdogDebouncer
 
 
 class WatchdogLocal:
