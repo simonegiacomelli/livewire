@@ -10,7 +10,7 @@ from typing import List, Any
 from livewire.filesystem_sync import filesystemevents_print
 from livewire.filesystem_sync import sync_zip
 from livewire.filesystem_sync import Sync
-from livewire.filesystem_sync import WatchdogDebouncer
+from livewire.filesystem_sync.watchdog_debouncer import WatchdogDebouncer
 from watchdog.events import FileSystemEvent
 
 from livewire import livewire_std_port, wait_forever
