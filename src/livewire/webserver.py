@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from functools import partial
 from http import HTTPStatus
-from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
+from http.server import SimpleHTTPRequestHandler, HTTPServer, ThreadingHTTPServer
 from threading import Thread
 from typing import Callable, Dict, Tuple, Any
 from urllib.parse import urlparse, parse_qs
@@ -15,9 +15,10 @@ from livewire.wait_url import wait_url
 
 
 class Webserver:
-    def __init__(self, port: int, host: str = '0.0.0.0') -> None:
+    def __init__(self, port: int, host: str = '0.0.0.0', threaded=False) -> None:
         self.host: str = host
         self.port: int = port
+        self.threaded: bool = threaded
 
         self.thread: Thread | None = None
         self._routes: Dict[str, HttpRoute] = {}
@@ -43,7 +44,8 @@ class Webserver:
         self._routes[route.path] = route
 
     def _start_listen(self) -> None:
-        httpd = ThreadingHTTPServer((self.host, self.port), partial(RequestHandler, handler=self._handler))
+        srv = ThreadingHTTPServer if self.threaded else HTTPServer
+        httpd = srv((self.host, self.port), partial(RequestHandler, handler=self._handler))
 
         def run() -> None:
             ip = get_device_ip()
